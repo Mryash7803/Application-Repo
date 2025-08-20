@@ -8,16 +8,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.mryashdoc }}
-        password: ${{ secrets.dckr_pat_YOtdb4_7xgFL6Y3HTKWQpMTL710 }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          # Use the secret for your username
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # Use the secret for your token
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push
-      uses: docker/build-push-action@v4
-      with:
-        push: true
-        tags: YOUR_DOCKERHUB_USERNAME/my-app-code:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          # Use the secret for the username here too
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-app-code:latest
